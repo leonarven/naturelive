@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="naturelive">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="/libs/bootstrap-3.3.6/css/bootstrap.min.css">
+        <style media="screen">
+            #controlsController {
+
+            }
+            #controlsController .handle {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                float: right;
+                background-color: rgba(255, 255, 255, 0.4);
+                -webkit-border-bottom-left-radius: 5px;
+                -moz-border-radius-bottomleft: 5px;
+                border-bottom-left-radius: 5px;
+                border: 1px solid #000;
+                padding: 5px;
+                -webkit-transition: all 200ms ease-out;
+                -moz-transition: all 200ms ease-out;
+                -o-transition: all 200ms ease-out;
+                transition: all 200ms ease-out;
+                font-size: 2em;
+                color: #000;
+                opacity: 0.6;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            #controlsController .handle:hover {
+                opacity: 1;
+            }
+            #controlsController > .content {
+                display: none;
+                height: 200px;
+                border-bottom: 1px solid
+            }
+            #controlsController.open > .content {
+                display: block;
+            }
+
+
+
+            #screensController .container-fluid {
+                padding-top: 4px;
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+            #screensController .row .screen {
+                padding-left:  2px;
+                padding-right: 2px;
+            }
+            #screensController .row .screen > .component {
+                width: 100%;
+                display: block;
+            }
+            #screensController .row .screen > screen-component-iframe > iframe {
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="" id="controlsController" ng-controller="controlsController" ng-class="{ 'open' : open }">
+            <div class="content container-fluid">
+                <div class="">
+                    <label>
+                        <h5>Ruutuja leveyssuunnassa:
+                        <select class="" name="" ng-model="session.screens_per_row" ng-change="session.changed()" convert-to-number>
+                            <option value="1">1 ruutu</option>
+                            <option value="2">2 ruutua</option>
+                            <option value="3">3 ruutua</option>
+                            <option value="4">4 ruutua</option>
+                            <option value="6">6 ruutua</option>
+                            <option value="12">12 ruutua</option>
+                        </select></h5>
+                    </label>
+                </div>
+            </div>
+            <a class="handle glyphicon glyphicon-menu-hamburger" ng-click="open = !open"></a>
+        </div>
+        <div class="" id="screensController" ng-controller="screensController">
+            <div class="container-fluid">
+                <div class="row">
+                    <div ng-repeat="screen in screens" class="screen" ng-class="'col-xs-'+colscount" ng-switch="screen.stream.type">
+                        <screen-component-iframe screen="screen" ng-switch-when="iframe" class="component"></screen-component-iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/libs/jquery.min.js" charset="utf-8"></script>
+        <script src="/libs/angular.min.js" charset="utf-8"></script>
+        <script src="/libs/bootstrap-3.3.6/js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="index.js" charset="utf-8"></script>
+    </body>
+</html>
