@@ -77,18 +77,6 @@ angular.module("naturelive", [])
             for(var i in session.selected) {
                 if ( CamerasList[ session.selected[i] ] ) {
                     var camera = CamerasList[ session.selected[i] ], screen = camera;
-/*                    if ( !camera.stream ) {
-                        console.error("Unknown screen stream");
-                        continue;
-                    }
-                    switch ( screen.type = camera.stream.type ) {
-                        case "iframe":
-                            screen.src = $sce.trustAsResourceUrl( camera.stream.src );
-                            break;
-                        default:
-                            console.error("Unknown stream type");
-                            continue;
-                    }*/
                     screens.push( screen );
                 } else console.error( "Camera '"+ session.selected[i] +"' not found from CamerasList" );
             }
@@ -110,10 +98,8 @@ angular.module("naturelive", [])
             onResize();
         });
         function onResize() {
-            console.log($element, $element.parent().width());
-//            $element.width($element.parent().width() - 30);
+            console.log($element);
         }
-        console.log("screenComponentIframe", ctrl);
     },
     "bindings" : {
         "screen" : "<"
