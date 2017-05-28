@@ -35,6 +35,8 @@ angular.module("naturelive", [])
 .service("session", [function(){
     this.selected = [ "viiru", "saaristosaaksi", "iss", "jattiharmaapolloUSA" ];
     this.screens_per_row = 4;
+    this.screens_height = null;
+    this.screens_height_auto = true;
 
     this._onChangeFuncs = [];
     this.onChange = function( func ) {
@@ -63,17 +65,29 @@ angular.module("naturelive", [])
 
 
 // CONTROLSCONTROLLER
-.controller("screensController", ["$scope", "$timeout", "$sce", "session", "CamerasList", function($scope, $timeout, $sce, session, CamerasList) {
+.controller("screensController", ["$scope", "$timeout", "$sce", "$element", "session", "CamerasList", function($scope, $timeout, $sce, $element, session, CamerasList) {
 
     $scope.screens = [];
 
     $scope.colscount = 0;
     $scope.width = 3;
+    $scope.screens_height_style = "auto";
 
     function refreshDOM() {
         $scope.colscount = 12 / session.screens_per_row;
+
+        if ( session.screens_height_auto ) {
+            $scope.screens_height_style = (($element.width() - 4) / session.screens_per_row) + "px";
+        } else if ( !session.screens_height ) {
+            $scope.screens_height_style = "auto";
+        } else {
+            $scope.screens_height_style = session.screens_height + "px";
+        }
+        console.log($scope.screens_height_style);
+
         $timeout(function(){
             var screens = [];
+            console.log($element);
             for(var i in session.selected) {
                 if ( CamerasList[ session.selected[i] ] ) {
                     var camera = CamerasList[ session.selected[i] ], screen = camera;
@@ -107,15 +121,15 @@ angular.module("naturelive", [])
 })
 
 .directive('convertToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(val) {
-        return val != null ? parseInt(val, 10) : null;
-      });
-      ngModel.$formatters.push(function(val) {
-        return val != null ? '' + val : null;
-      });
-    }
-  };
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function(val) {
+                return val != null ? parseInt(val, 10) : null;
+            });
+            ngModel.$formatters.push(function(val) {
+                return val != null ? '' + val : null;
+            });
+        }
+    };
 });
